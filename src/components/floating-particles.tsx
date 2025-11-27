@@ -1,32 +1,36 @@
+
 "use client"
 
 import React, { useMemo } from 'react';
+import { Leaf } from 'lucide-react';
 
 export function FloatingParticles() {
-  const particles = useMemo(() => Array.from({ length: 25 }).map(() => ({
+  const particles = useMemo(() => Array.from({ length: 15 }).map(() => ({
     left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: `${Math.random() * 3 + 1}px`,
-    duration: `${Math.random() * 20 + 15}s`,
-    delay: `-${Math.random() * 20}s`,
-    endX: `${Math.random() * 40 - 20}vw`,
-    endY: `${Math.random() * 40 - 20}vh`,
-    endRotate: `${Math.random() * 360}deg`
+    duration: `${Math.random() * 10 + 8}s`,
+    delay: `-${Math.random() * 10}s`,
+    size: `${Math.random() * 12 + 8}px`,
+    rotationStart: `${Math.random() * 360}deg`,
+    rotationEnd: `${Math.random() * 720 - 360}deg`,
+    xEnd: `${Math.random() * 100 - 50}vw`
   })), []);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden z-0 h-full">
       <style>{`
-        @keyframes float {
+        @keyframes fall {
           0% {
-            transform: translate(0, 0) rotate(0deg);
+            transform: translateY(-10vh) translateX(0vw) rotate(var(--rotation-start));
             opacity: 0;
           }
-          25%, 75% {
-            opacity: 1;
+          10% {
+             opacity: 1;
+          }
+          90% {
+             opacity: 1;
           }
           100% {
-            transform: translate(var(--end-x), var(--end-y)) rotate(var(--end-rotate));
+            transform: translateY(110vh) translateX(var(--x-end)) rotate(var(--rotation-end));
             opacity: 0;
           }
         }
@@ -34,22 +38,22 @@ export function FloatingParticles() {
       {particles.map((p, i) => (
         <div
           key={i}
-          className="absolute rounded-full bg-primary/20 dark:bg-accent/20"
+          className="absolute text-primary/30 dark:text-accent/20"
           style={{
             left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-            animationName: 'float',
+            top: 0,
+            animationName: 'fall',
             animationDuration: p.duration,
             animationTimingFunction: 'linear',
             animationIterationCount: 'infinite',
             animationDelay: p.delay,
-            '--end-x': p.endX,
-            '--end-y': p.endY,
-            '--end-rotate': p.endRotate,
+            '--rotation-start': p.rotationStart,
+            '--rotation-end': p.rotationEnd,
+            '--x-end': p.xEnd,
           } as React.CSSProperties}
-        />
+        >
+          <Leaf style={{ width: p.size, height: p.size }}/>
+        </div>
       ))}
     </div>
   );
