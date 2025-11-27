@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, Star } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "My Garden" },
+  { href: "/quests", label: "Quests" },
   { href: "/growth-log", label: "Growth Log" },
   { href: "/community-grove", label: "Community Grove" },
   { href: "/forge", label: "Forge" },
